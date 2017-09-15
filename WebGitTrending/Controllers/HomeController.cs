@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web.Mvc;
+using WebGitTrending.Context;
+using WebGitTrending.Models;
 using static WebGitTrending.Models.TrendingModel;
 
 namespace WebGitTrending.Controllers
@@ -46,12 +48,15 @@ namespace WebGitTrending.Controllers
 
                 try
                 {
+                    RootObject obj = new RootObject();
+
                     using (StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream(), Encoding.UTF8))
                     {
                         string reader = responseReader.ReadToEnd();
-                        RootObject obj = JsonConvert.DeserializeObject<RootObject>(reader);
+                        obj = JsonConvert.DeserializeObject<RootObject>(reader);
                     }
 
+                    InsertData(obj);
                 }
                 catch (Exception e)
                 {
@@ -60,6 +65,14 @@ namespace WebGitTrending.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        private void InsertData(RootObject obj)
+        {
+
+
+
+            throw new NotImplementedException();
         }
     }
 }
