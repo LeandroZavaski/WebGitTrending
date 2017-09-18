@@ -7,13 +7,13 @@ namespace WebGitTrending.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Novo : IMigrationMetadata
+    public sealed partial class dbtrending : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Novo));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(dbtrending));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709181426104_Novo"; }
+            get { return "201709181535024_dbtrending"; }
         }
         
         string IMigrationMetadata.Source
