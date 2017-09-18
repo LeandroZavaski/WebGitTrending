@@ -16,7 +16,6 @@ namespace WebGitTrending.Context
         }
         public DbSet<RootObject> RootObject { get; set; }
         public DbSet<Item> Item { get; set; }
-
         public DbSet<Owner> Owner { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
