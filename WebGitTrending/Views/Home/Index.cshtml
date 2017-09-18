@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<WebGitTrending.Models.TrendingModel.Item>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -10,44 +12,52 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h2>Listar Repositórios Destaque!</h2>
+        <h2>Repositórios em Destaque!</h2>
     </div>
 </div>
 
 <hr />
 
-<div class="row">
+<div class="row" style="display:none;" id="divTable">
     <div class="col-lg-12">
-        <table class="table table-striped">
+
+        @Html.ValidationSummary(true)
+
+        <table class="table table-striped" id="tblTrending">
             <thead>
                 <tr>
-                    <th>Name</th>
                     <th>Full Name</th>
                     <th>Language</th>
+                    <th>Stars</th>
                     <th>Watchers</th>
                     <th>Score</th>
                     <th>Description</th>
                 </tr>
             </thead>
-            @*@foreach (var d in Model)
-                {*@
-            <tbody>
-                <tr>
-                    @*<td>@d.name</td>
+            @foreach (var d in Model)
+            {
+                <tbody>
+                    <tr>
                         <td>@d.full_name</td>
                         <td>@d.language</td>
+                        <td>@d.stargazers_count</td>
                         <td>@d.watchers</td>
                         <td>@d.score</td>
-                        <td>@d.description</td>*@
-                </tr>
-            </tbody>
-            @*}*@
+                        <td>@d.description</td>
+                    </tr>
+                </tbody>
+            }
         </table>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
-        <a href="" class="btn btn-success btn-lg">Listar</a>
+        <input type="submit" value="Listar" class="btn btn-success btn-lg" id="btnListar"/>
     </div>
 </div>
+
+@section Scripts
+{
+    <script  type="text/javascript" src="~/Scripts/Custom.js"></script>
+}

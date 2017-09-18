@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebGitTrending.Context;
 using WebGitTrending.Models;
@@ -14,23 +16,12 @@ namespace WebGitTrending.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private TrendingContext contexto = new TrendingContext();
+
+        public async Task<ActionResult> Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            List<Item> result = await contexto.Item.ToListAsync();
+            return View(result);
         }
 
         public ActionResult ReadGit()
@@ -58,13 +49,16 @@ namespace WebGitTrending.Controllers
                         obj = JsonConvert.DeserializeObject<RootObject>(reader);
                     }
 
+                    //Limpar Tabelas para uma nova inserção
                     DeleteData();
 
+                    //Inserir novos registro nas tabelas
                     InsertData(obj);
+
                 }
                 catch (Exception e)
                 {
-                    ViewBag.Message = "Não foi possível efetuar a leitura da API."+e.Message;
+                    ViewBag.Message = "Não foi possível efetuar a leitura da API." + e.Message;
                 }
             }
 
@@ -82,24 +76,17 @@ namespace WebGitTrending.Controllers
                     ctx.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Item', RESEED, 0)");
                     ctx.SaveChanges();
 
-                }
-
-                using (var ctx = new TrendingContext())
-                {
-                    IQueryable<RootObject> allItems = ctx.RootObject;
-                    ctx.RootObject.RemoveRange(allItems);
+                    IQueryable<RootObject> allRoot = ctx.RootObject;
+                    ctx.RootObject.RemoveRange(allRoot);
                     ctx.Database.ExecuteSqlCommand("DBCC CHECKIDENT('RootObject', RESEED, 0)");
                     ctx.SaveChanges();
-                }
 
-                using (var ctx = new TrendingContext())
-                {
-                    IQueryable<Owner> allItems = ctx.Owner;
-                    ctx.Owner.RemoveRange(allItems);
+                    IQueryable<Owner> allOwner = ctx.Owner;
+                    ctx.Owner.RemoveRange(allOwner);
                     ctx.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owner', RESEED, 0)");
                     ctx.SaveChanges();
-                }
 
+                }
             }
             catch (Exception e)
             {
@@ -111,7 +98,7 @@ namespace WebGitTrending.Controllers
         {
             try
             {
-                using (TrendingContext contexto = new TrendingContext())
+                using (contexto)
                 {
                     contexto.RootObject.Add(obj);
                     contexto.SaveChanges();
@@ -123,5 +110,19 @@ namespace WebGitTrending.Controllers
                 ViewBag.Message = e.Message;
             }
         }
+
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
+
+        //    return View();
+        //}
+
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
+
+        //    return View();
+        //}
     }
 }
