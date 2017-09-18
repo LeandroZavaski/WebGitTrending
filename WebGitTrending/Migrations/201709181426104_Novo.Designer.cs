@@ -13,7 +13,7 @@ namespace WebGitTrending.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201709151954466_Novo"; }
+            get { return "201709181426104_Novo"; }
         }
         
         string IMigrationMetadata.Source

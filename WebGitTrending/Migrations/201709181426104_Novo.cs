@@ -8,7 +8,7 @@ namespace WebGitTrending.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Items",
+                "dbo.Item",
                 c => new
                     {
                         RootId = c.Int(nullable: false, identity: true),
@@ -83,13 +83,13 @@ namespace WebGitTrending.Migrations
                         RootObject_RootId = c.Int(),
                     })
                 .PrimaryKey(t => t.RootId)
-                .ForeignKey("dbo.Owners", t => t.id, cascadeDelete: true)
-                .ForeignKey("dbo.RootObjects", t => t.RootObject_RootId)
+                .ForeignKey("dbo.Owner", t => t.id, cascadeDelete: true)
+                .ForeignKey("dbo.RootObject", t => t.RootObject_RootId)
                 .Index(t => t.id)
                 .Index(t => t.RootObject_RootId);
             
             CreateTable(
-                "dbo.Owners",
+                "dbo.Owner",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -113,7 +113,7 @@ namespace WebGitTrending.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.RootObjects",
+                "dbo.RootObject",
                 c => new
                     {
                         RootId = c.Int(nullable: false, identity: true),
@@ -126,13 +126,13 @@ namespace WebGitTrending.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Items", "RootObject_RootId", "dbo.RootObjects");
-            DropForeignKey("dbo.Items", "id", "dbo.Owners");
-            DropIndex("dbo.Items", new[] { "RootObject_RootId" });
-            DropIndex("dbo.Items", new[] { "id" });
-            DropTable("dbo.RootObjects");
-            DropTable("dbo.Owners");
-            DropTable("dbo.Items");
+            DropForeignKey("dbo.Item", "RootObject_RootId", "dbo.RootObject");
+            DropForeignKey("dbo.Item", "id", "dbo.Owner");
+            DropIndex("dbo.Item", new[] { "RootObject_RootId" });
+            DropIndex("dbo.Item", new[] { "id" });
+            DropTable("dbo.RootObject");
+            DropTable("dbo.Owner");
+            DropTable("dbo.Item");
         }
     }
 }

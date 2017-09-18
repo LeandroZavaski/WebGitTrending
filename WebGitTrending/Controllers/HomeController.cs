@@ -60,7 +60,7 @@ namespace WebGitTrending.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.Message = "Não foi possível efetuar a leitura da API.";
+                    ViewBag.Message = "Não foi possível efetuar a leitura da API."+e.Message;
                 }
             }
 
@@ -70,7 +70,10 @@ namespace WebGitTrending.Controllers
         private void InsertData(RootObject obj)
         {
 
+            TrendingContext contexto = new TrendingContext();
 
+            contexto.RootObject.Add(obj);
+            contexto.SaveChanges();
 
             throw new NotImplementedException();
         }
