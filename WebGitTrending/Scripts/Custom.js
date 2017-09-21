@@ -5,7 +5,6 @@
 
     $('#btnListar').bind('click', function () {
         $('#divTable').show();
-    })
-
+    });
 
 });
